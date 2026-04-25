@@ -56,6 +56,7 @@ class CropModel(nn.Module):
         self.feature_layers = nn.Sequential(*list(backbone.children())[:-1])
         self.sleeve_classifier = nn.Linear(2048, 1)
         self.type_classifier = nn.Linear(2048, 1)
+        self.dropout = nn.Dropout(p=0.7)
         
     def forward(self, x):
         tensor = self.feature_layers(x)
