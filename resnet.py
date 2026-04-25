@@ -15,11 +15,13 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"Device: {device}")
 
 class CropDataSet(Dataset):
-    def __init__(self, image_dir, json_dir, transform=None):
+    def __init__(self, image_dir, json_dir, transform=None, max_samples = None):
         self.image_dir = image_dir
         self.json_dir = json_dir
         self.transform = transform
         self.all_imgs = sorted([f for f in os.listdir(image_dir)])
+        if max_samples is not None:
+            self.all_imgs = self.all_imgs[:max_samples]
 
     # Return the JSON of the image
     def get_json(self, image_str):
@@ -77,7 +79,7 @@ if __name__ == '__main__':
                             std=[0.229, 0.224, 0.225])
     ])
 
-    datasets = CropDataSet(image_dir, json_dir, transform=transform)
+    datasets = CropDataSet(image_dir, json_dir, transform=transform, max_samples=20000)
     dataloader = DataLoader(datasets, batch_size=batch_size, shuffle=True)
     model = CropModel().to(device)
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
