@@ -58,6 +58,7 @@ class CropModel(nn.Module):
     def forward(self, x):
         tensor = self.feature_layers(x)
         x = torch.flatten(tensor, 1)
+        x = nn.Dropout(x)
         sleeve_out = self.sleeve_classifier(x)
         type_out = self.type_classifier(x)
         return sleeve_out, type_out
