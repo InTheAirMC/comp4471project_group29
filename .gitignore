@@ -211,3 +211,11 @@ __marimo__/
 
 
 classification_model.pth
+
+
+
+runs/
+stage2_crops/
+stage2_crops_val/
+train/
+val/
